@@ -1,87 +1,602 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>منصة مِعراج | الصرح التشخيصي السيكومتري v14</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="منصة مِعراج — قياس الشخصية وإدارة العقل والارتقاء المعرفي">
+    <meta name="theme-color" content="#020617">
+    <title>منصة مِعراج | v13</title>
+
+    <link rel="preconnect" href="https://cdn.tailwindcss.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700;800;900&family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body class="min-h-screen flex flex-col justify-between bg-slate-950 text-slate-100 font-sans selection:bg-emerald-500 selection:text-slate-950">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
-    <!-- TOP NAVBAR -->
-    <header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 px-4 py-3">
-        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center text-slate-950 font-black text-xl">مـ</div>
-                <div>
-                    <h1 class="text-lg font-bold text-white font-heading">مِعـراج <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">v14 Modular</span></h1>
-                    <p class="text-xs text-slate-400">صرح التشخيص النفسي والذكاء والإدراك المعرفي</p>
+    <!-- ربط ملف CSS الخارجي -->
+    <link rel="stylesheet" href="styles/main.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {50:'#f0fdf4',100:'#dcfce7',400:'#34d399',500:'#10b981',600:'#059669',700:'#047857',800:'#065f46',900:'#064e3b'},
+                        navy: {800:'#0f172a',900:'#020617',950:'#01040d'},
+                        amberGold: '#f59e0b',
+                        violetAccent: '#8b5cf6',
+                        cyanAccent: '#06b6d4',
+                    },
+                    fontFamily: { sans: ['Cairo','sans-serif'], heading: ['Tajawal','sans-serif'] }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-slate-950">
+
+    <!-- HEADER -->
+    <header class="sticky top-0 z-40 glass-card border-b border-slate-800 px-3 sm:px-4 lg:px-8 py-2.5 sm:py-3 no-print" role="banner">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4">
+
+            <div class="w-full md:w-auto flex items-center justify-between">
+                <div class="flex items-center gap-2.5 sm:gap-3">
+                    <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl bg-gradient-to-tr from-brand-600 via-emerald-500 to-amber-500 flex items-center justify-center text-slate-950 font-black text-xl sm:text-2xl shadow-lg shadow-brand-500/20 shrink-0" aria-hidden="true">مـ</div>
+                    <div>
+                        <h1 class="text-base sm:text-xl font-bold tracking-tight text-white font-heading flex items-center gap-1.5 sm:gap-2">
+                            مِعـراج
+                            <span class="text-[9px] sm:text-[10px] font-semibold px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/30">v13</span>
+                        </h1>
+                        <p class="text-[10px] sm:text-xs text-slate-400">صرح قياس الشخصية وإدارة العقل والارتقاء المعرفي</p>
+                    </div>
+                </div>
+
+                <div class="flex md:hidden items-center gap-2 bg-slate-900/90 px-2.5 py-1.5 rounded-xl border border-slate-800 text-[10px] font-bold">
+                    <div class="flex items-center gap-1 text-amber-400"><i class="fa-solid fa-compass" aria-hidden="true"></i><span id="mobileNavTier">—</span></div>
+                    <div class="h-3 w-px bg-slate-800"></div>
+                    <div class="flex items-center gap-1 text-brand-400"><i class="fa-solid fa-clock" aria-hidden="true"></i><span id="mobileNavHours">0h</span></div>
                 </div>
             </div>
 
-            <nav class="flex items-center gap-2 bg-slate-950 p-1.5 rounded-2xl border border-slate-800 text-xs font-semibold">
-                <button data-tab="diagnostics" class="nav-tab px-3 py-2 rounded-xl bg-emerald-600 text-slate-950 font-bold"><i class="fa-solid fa-brain ml-1"></i> المحرك التشخيصي</button>
-                <button data-tab="blueprint" class="nav-tab px-3 py-2 rounded-xl text-slate-300 hover:text-white"><i class="fa-solid fa-file-contract text-amber-400 ml-1"></i> المخطط الممتد</button>
-                <button data-tab="ai" class="nav-tab px-3 py-2 rounded-xl text-slate-300 hover:text-white"><i class="fa-solid fa-wand-magic-sparkles text-cyan-400 ml-1"></i> مرشد البصيرة</button>
-                <button data-tab="workspace" class="nav-tab px-3 py-2 rounded-xl text-slate-300 hover:text-white"><i class="fa-solid fa-stopwatch text-violet-400 ml-1"></i> المؤقت والمختبر</button>
+            <div class="hidden md:flex items-center gap-3 bg-slate-900/90 px-4 py-2 rounded-2xl border border-slate-800 text-xs">
+                <div class="flex items-center gap-2" title="المرتبة الحالية"><i class="fa-solid fa-compass text-amber-400" aria-hidden="true"></i><span id="navTier" class="font-bold text-amber-300">المستكشف المعرفي</span></div>
+                <div class="h-4 w-px bg-slate-800"></div>
+                <div class="flex items-center gap-2" title="سلسلة الاستمرار"><i class="fa-solid fa-fire text-orange-500" aria-hidden="true"></i><span id="navStreak" class="font-bold text-slate-200">0 أيام</span></div>
+                <div class="h-4 w-px bg-slate-800"></div>
+                <div class="flex items-center gap-2" title="ساعات التعلم"><i class="fa-solid fa-clock text-brand-400" aria-hidden="true"></i><span id="navTotalHours" class="font-bold text-slate-200">0 ساعة</span></div>
+                <div class="h-4 w-px bg-slate-800"></div>
+                <button onclick="UI.openSettings()" class="text-slate-300 hover:text-brand-400 transition-all touch-tap p-1" title="الإعدادات" aria-label="فتح الإعدادات">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                <button onclick="UI.toggleTheme()" class="text-slate-300 hover:text-amber-400 transition-all touch-tap p-1" title="تبديل المظهر" aria-label="تبديل المظهر">
+                    <i class="fa-solid fa-circle-half-stroke"></i>
+                </button>
+            </div>
+
+            <nav class="w-full md:w-auto overflow-x-auto no-scrollbar flex items-center gap-1.5 bg-slate-900/90 p-1 sm:p-1.5 rounded-xl sm:rounded-2xl border border-slate-800 text-xs font-semibold whitespace-nowrap" role="tablist">
+                <button data-tab="quiz" class="nav-tab touch-tap px-3 py-2 rounded-lg sm:rounded-xl transition-all shrink-0" role="tab"><i class="fa-solid fa-brain ml-1" aria-hidden="true"></i> <span>المحرك التشخيصي</span></button>
+                <button data-tab="ai-assistant" class="nav-tab touch-tap px-3 py-2 rounded-lg sm:rounded-xl transition-all text-slate-300 hover:text-white shrink-0" role="tab"><i class="fa-solid fa-wand-magic-sparkles text-amber-400 ml-1" aria-hidden="true"></i> <span>مرشد البصيرة</span></button>
+                <button data-tab="courses" class="nav-tab touch-tap px-3 py-2 rounded-lg sm:rounded-xl transition-all text-slate-300 hover:text-white shrink-0" role="tab"><i class="fa-solid fa-calculator text-cyan-400 ml-1" aria-hidden="true"></i> <span>المختبر والحاسبة</span></button>
+                <button data-tab="ledger" class="nav-tab touch-tap px-3 py-2 rounded-lg sm:rounded-xl transition-all text-slate-300 hover:text-white shrink-0" role="tab"><i class="fa-solid fa-stopwatch text-violet-400 ml-1" aria-hidden="true"></i> <span>المؤقت والسجل</span></button>
+                <button data-tab="analytics" class="nav-tab touch-tap px-3 py-2 rounded-lg sm:rounded-xl transition-all text-slate-300 hover:text-white shrink-0" role="tab"><i class="fa-solid fa-chart-pie text-emerald-400 ml-1" aria-hidden="true"></i> <span>التحليلات</span></button>
             </nav>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="max-w-7xl mx-auto px-4 py-8 flex-grow w-full space-y-8">
-        <section id="tab-diagnostics" class="tab-content space-y-6">
-            <div id="testsCardGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-        </section>
+    <!-- MAIN CONTAINER -->
+    <main class="max-w-7xl mx-auto px-3 sm:px-4 lg:px-8 py-4 sm:py-8 flex-grow w-full space-y-6 sm:space-y-8">
 
-        <section id="tab-blueprint" class="tab-content hidden space-y-6">
-            <div class="bg-slate-900/90 p-6 rounded-3xl border border-slate-800 space-y-6">
-                <h2 class="text-2xl font-bold font-heading text-amber-400">مخطط البصيرة الشخصية الممتد</h2>
-                <div class="h-64"><canvas id="radarLearningChart"></canvas></div>
-                <div id="blueprintOceanText" class="text-xs space-y-2"></div>
-                <div id="blueprintIqText" class="text-xs space-y-2"></div>
-                <div id="blueprintHbdiText" class="text-xs space-y-2"></div>
-                <div id="blueprintStrengthsText" class="text-xs space-y-2"></div>
-                <div id="blueprintFixesText" class="text-xs space-y-2"></div>
-                <div id="blueprintStudyStrategyText" class="text-xs space-y-2"></div>
-            </div>
-        </section>
+        <!-- TAB 1: QUIZ -->
+        <section id="tab-quiz" class="tab-content" role="tabpanel">
+            <div class="max-w-4xl mx-auto space-y-6">
+                <div id="quizIntro" class="space-y-6">
+                    <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl text-center space-y-4">
+                        <div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-brand-600/20 to-amber-500/20 border border-brand-500/30 text-brand-400 rounded-2xl sm:rounded-3xl flex items-center justify-center mx-auto text-2xl sm:text-3xl shadow-xl"><i class="fa-solid fa-microscope" aria-hidden="true"></i></div>
+                        <h2 class="text-xl sm:text-3xl font-black font-heading text-white">اختر المسار التشخيصي لعقلك وشخصيتك</h2>
+                        <p class="text-slate-300 text-xs sm:text-sm leading-relaxed max-w-2xl mx-auto">منظومة فحص علمية متكاملة تستند إلى نماذج القياس النفسي والإدراكي العميقة.</p>
+                    </div>
 
-        <section id="tab-ai" class="tab-content hidden space-y-4">
-            <div id="aiChatWindow" class="h-[400px] overflow-y-auto p-4 bg-slate-950 rounded-2xl border border-slate-800 space-y-3"></div>
-            <form id="aiChatForm" class="flex gap-2">
-                <input type="text" id="aiChatInput" required placeholder="اسأل مرشدك المعرفي..." class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-xs text-white">
-                <button type="submit" class="px-6 py-3 bg-emerald-600 text-slate-950 font-bold rounded-xl text-xs">إرسال</button>
-            </form>
-        </section>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div class="glass-card p-5 sm:p-6 rounded-2xl border border-slate-800 hover:border-brand-500/50 transition-all flex flex-col justify-between space-y-4">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="px-2.5 py-1 rounded-full bg-brand-500/10 text-brand-400 text-[10px] font-bold border border-brand-500/20">الفحص السريع (9 محطات)</span>
+                                    <i class="fa-solid fa-bolt text-brand-400 text-lg" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-bold text-white font-heading">الاختبار الموجه السريع</h3>
+                                <p class="text-xs text-slate-300 leading-relaxed">تشخيص سريع ومركز لمعرفة نمطك الإدراكي (VARK)، طاقتك الذهنية، وثغرتك السلوكية.</p>
+                            </div>
+                            <button onclick="Quiz.start('quick')" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg touch-tap flex items-center justify-center gap-2"><i class="fa-solid fa-play" aria-hidden="true"></i> بدء الفحص السريع</button>
+                        </div>
 
-        <section id="tab-workspace" class="tab-content hidden space-y-6">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 text-center space-y-4">
-                    <span id="timerDisplay" class="text-4xl font-mono font-black text-white">45:00</span>
-                    <div class="flex justify-center gap-3">
-                        <button id="timerStartBtn" class="px-6 py-3 bg-emerald-600 text-slate-950 font-bold rounded-xl text-xs">بدء الجلسة</button>
-                        <button id="brownNoiseBtn" class="px-4 py-3 bg-slate-800 text-amber-400 font-bold rounded-xl text-xs"><span id="brownNoiseText">تشغيل ضوضاء التركيز</span></button>
+                        <div class="glass-card-amber p-5 sm:p-6 rounded-2xl border border-amber-500/30 hover:border-amber-400 transition-all flex flex-col justify-between space-y-4">
+                            <div class="space-y-3">
+                                <div class="flex items-center justify-between">
+                                    <span class="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 text-[10px] font-bold border border-amber-500/40">الفحص الشامل (100 بند فريد)</span>
+                                    <i class="fa-solid fa-shield-halved text-amber-400 text-lg" aria-hidden="true"></i>
+                                </div>
+                                <h3 class="text-base sm:text-lg font-bold text-white font-heading">الاختبار الشامل الفائق</h3>
+                                <p class="text-xs text-slate-300 leading-relaxed">فحص مكثف بـ 100 بند مستقل (10 أبعاد × 10 صيغ لغوية فريدة) — بدون تكرار حرفي.</p>
+                                <div class="flex flex-wrap items-center gap-3 text-[10px] text-amber-300 font-semibold pt-1">
+                                    <span><i class="fa-solid fa-check-double ml-1" aria-hidden="true"></i> 100 بند فريد</span>
+                                    <span><i class="fa-solid fa-fingerprint ml-1" aria-hidden="true"></i> تقرير تشخيصي مطول</span>
+                                </div>
+                            </div>
+                            <button onclick="Quiz.start('comprehensive')" class="w-full py-3 bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:from-amber-400 hover:to-orange-400 text-slate-950 font-black rounded-xl text-xs transition-all shadow-xl touch-tap flex items-center justify-center gap-2"><i class="fa-solid fa-star" aria-hidden="true"></i> خوض الاختبار الشامل</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="bg-slate-900 p-6 rounded-3xl border border-slate-800 space-y-4">
-                    <button id="dictationBtn" class="px-4 py-2 bg-slate-800 text-emerald-400 font-bold rounded-xl text-xs"><span id="micStatusText">تحدث بالمايك (إملاء مستمر)</span></button>
-                    <textarea id="workspaceNotesTextarea" rows="6" placeholder="ملاحظاتك..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs text-white"></textarea>
+                <div id="quizContainer" class="hidden glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl space-y-5">
+                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-4">
+                        <div>
+                            <span id="quizStageName" class="text-[10px] sm:text-xs font-bold text-brand-400 uppercase tracking-wider block">المحطة التشخيصية</span>
+                            <span id="quizStepText" class="text-xs sm:text-sm font-semibold text-slate-400">السؤال 1 من 9</span>
+                        </div>
+                        <div id="validityIndicator" class="hidden flex items-center gap-2 bg-slate-900 px-3 py-1.5 rounded-xl border border-slate-800 text-[10px]">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-slate-300">ملاحظة الاتساق الزمني: <strong class="text-brand-400">نشط</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="w-full bg-slate-900 h-2.5 rounded-full overflow-hidden border border-slate-800" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="quizProgressContainer">
+                        <div id="quizProgressBar" class="bg-gradient-to-r from-brand-500 via-emerald-400 to-amber-500 h-full w-0 transition-all duration-300"></div>
+                    </div>
+
+                    <div id="speedAlertText" class="hidden p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs flex items-center gap-2">
+                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                        <span>تنبيه: سرعة الإجابة عالية جداً، يُفضل التأني لضمان دقة التحليل السلوكي.</span>
+                    </div>
+
+                    <div class="space-y-2 py-2">
+                        <h3 id="questionText" class="text-base sm:text-xl font-bold font-heading text-white leading-relaxed">نص السؤال التشخيصي سيظهر هنا...</h3>
+                        <p id="questionHint" class="text-xs text-slate-400 leading-normal">تلميح إرشادي لمساعدة المتعلم...</p>
+                    </div>
+
+                    <div id="optionsContainer" class="space-y-3"></div>
+
+                    <div class="flex justify-between items-center pt-4 border-t border-slate-800 text-xs">
+                        <button id="prevQuestionBtn" onclick="Quiz.prev()" disabled class="px-4 py-2 bg-slate-900 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed text-slate-300 rounded-xl border border-slate-800 transition-all touch-tap"><i class="fa-solid fa-arrow-right ml-1" aria-hidden="true"></i> السابق</button>
+                        <button onclick="Quiz.cancel()" class="text-slate-400 hover:text-red-400 transition-all touch-tap">إلغاء الاختبار</button>
+                    </div>
+                </div>
+
+                <div id="quizResults" class="hidden glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl space-y-8">
+                    <div class="text-center space-y-3 border-b border-slate-800 pb-6">
+                        <div class="w-20 h-20 bg-gradient-to-tr from-brand-600 to-amber-500 border border-brand-400 text-slate-950 rounded-3xl flex items-center justify-center mx-auto text-3xl shadow-xl"><i class="fa-solid fa-award" aria-hidden="true"></i></div>
+                        <h2 class="text-xl sm:text-3xl font-black font-heading text-white">وثيقة البصيرة المعرفية</h2>
+                        <p class="text-brand-400 text-xs sm:text-sm font-bold max-w-xl mx-auto">تم تحليل أبعاد بنيتك الإدراكية والسلوكية بنجاح.</p>
+                        <div class="flex justify-center pt-2">
+                            <span id="validityBadge" class="px-4 py-1.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold text-xs border border-emerald-500/30">موثوقية متزنة 98%</span>
+                        </div>
+                        <p id="validityDescText" class="text-xs text-slate-400 max-w-md mx-auto"></p>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+                        <div class="glass-card p-4 rounded-2xl space-y-2">
+                            <h4 class="text-xs font-bold text-slate-300 text-center">مصفوفة التكوين الإدراكي (Radar)</h4>
+                            <div class="h-64 sm:h-72"><canvas id="deepRadarChart" aria-label="رسم رادار للسمات"></canvas></div>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1"><span class="text-brand-400 font-bold block">النمط الإدراكي السائد (VARK)</span><p id="resVarkSummary" class="text-slate-200">—</p></div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1"><span class="text-amber-400 font-bold block">الاستيعاب والسعة المعرفية</span><p id="resCapacitySummary" class="text-slate-200">—</p></div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1"><span class="text-cyan-400 font-bold block">ذروة النشاط الذهني</span><p id="resChronoSummary" class="text-slate-200">—</p></div>
+                            <div class="p-3.5 rounded-xl bg-slate-900/90 border border-slate-800 space-y-1"><span class="text-violet-400 font-bold block">الثغرة السلوكية المستهدفة</span><p id="resFrictionSummary" class="text-slate-200">—</p></div>
+                        </div>
+                    </div>
+
+                    <div class="space-y-6 pt-4 border-t border-slate-800">
+                        <h3 class="text-lg font-bold font-heading text-amber-400 flex items-center gap-2"><i class="fa-solid fa-book-open" aria-hidden="true"></i> التقرير النفسي الممتد</h3>
+                        <div class="glass-card-accent p-5 rounded-2xl space-y-3">
+                            <h4 class="text-sm font-bold text-brand-400 flex items-center gap-2"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i> 1. مكامن القوة الفائقة</h4>
+                            <div id="strengthsBlock" class="space-y-2 text-xs text-slate-200 leading-relaxed"></div>
+                        </div>
+                        <div class="glass-card-amber p-5 rounded-2xl space-y-3">
+                            <h4 class="text-sm font-bold text-amber-400 flex items-center gap-2"><i class="fa-solid fa-bug" aria-hidden="true"></i> 2. الثغرات السلوكية ونقاط الضعف</h4>
+                            <div id="weaknessesBlock" class="space-y-2 text-xs text-slate-200 leading-relaxed"></div>
+                        </div>
+                        <div class="glass-card-purple p-5 rounded-2xl space-y-3">
+                            <h4 class="text-sm font-bold text-violet-300 flex items-center gap-2"><i class="fa-solid fa-graduation-cap" aria-hidden="true"></i> 3. خارطة المهارات الموصى بها</h4>
+                            <div id="skillsMatrixList" class="flex flex-wrap gap-2 pt-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-3 pt-6 border-t border-slate-800">
+                        <button onclick="UI.goToAIChatWithContext()" class="flex-1 py-3 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-lg touch-tap flex items-center justify-center gap-2"><i class="fa-solid fa-comments" aria-hidden="true"></i> التحدث مع مرشد البصيرة</button>
+                        <button onclick="Data.exportAll()" class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold rounded-xl text-xs border border-slate-800 transition-all touch-tap flex items-center justify-center gap-2"><i class="fa-solid fa-download" aria-hidden="true"></i> تصدير JSON</button>
+                        <button onclick="window.print()" class="px-5 py-3 bg-slate-900 hover:bg-slate-800 text-slate-300 font-bold rounded-xl text-xs border border-slate-800 transition-all touch-tap flex items-center justify-center gap-2"><i class="fa-solid fa-print" aria-hidden="true"></i> طباعة</button>
+                    </div>
                 </div>
             </div>
         </section>
+
+        <!-- TAB 2: AI ASSISTANT -->
+        <section id="tab-ai-assistant" class="tab-content hidden" role="tabpanel">
+            <div class="max-w-4xl mx-auto glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl space-y-4">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center text-lg"><i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i></div>
+                        <div>
+                            <h3 class="text-base sm:text-lg font-bold font-heading text-white">مرشد البصيرة المعرفية</h3>
+                            <p id="aiStatusText" class="text-[10px] sm:text-xs text-slate-400">غير مُهيّأ — اضغط على زر الإعدادات لإدخال مفتاح API.</p>
+                        </div>
+                    </div>
+                    <button onclick="AI.clearChat()" class="text-xs text-slate-400 hover:text-red-400 transition-all touch-tap" aria-label="مسح المحادثة"><i class="fa-solid fa-trash-can"></i></button>
+                </div>
+
+                <div class="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
+                    <button onclick="AI.sendPreset('كيف أدرس كتاباً من 400 صفحة بناءً على نمطي البصري؟')" class="px-3 py-1.5 rounded-full bg-slate-900 hover:bg-brand-500/20 text-slate-300 hover:text-brand-300 border border-slate-800 text-[11px] whitespace-nowrap transition-all touch-tap shrink-0">💡 كتاب 400 صفحة</button>
+                    <button onclick="AI.sendPreset('كيف أتغلب على تسويف القائم على المثالية؟')" class="px-3 py-1.5 rounded-full bg-slate-900 hover:bg-amber-500/20 text-slate-300 hover:text-amber-300 border border-slate-800 text-[11px] whitespace-nowrap transition-all touch-tap shrink-0">🎯 تسويف المثالية</button>
+                    <button onclick="AI.sendPreset('ما أفضل طريقة لتقسيم ساعات التعلم في فترات ذروتي؟')" class="px-3 py-1.5 rounded-full bg-slate-900 hover:bg-cyan-500/20 text-slate-300 hover:text-cyan-300 border border-slate-800 text-[11px] whitespace-nowrap transition-all touch-tap shrink-0">⏰ استغلال الذروة</button>
+                </div>
+
+                <div id="aiChatWindow" class="h-[52vh] sm:h-[420px] min-h-[300px] overflow-y-auto custom-scrollbar p-3 sm:p-4 bg-slate-950/70 rounded-xl sm:rounded-2xl border border-slate-800/80 space-y-3 sm:space-y-4" aria-live="polite">
+                    <div class="flex gap-2.5 sm:gap-3">
+                        <div class="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 flex items-center justify-center shrink-0 text-xs sm:text-sm"><i class="fa-solid fa-sparkles" aria-hidden="true"></i></div>
+                        <div class="chat-bubble-ai p-3 sm:p-4 text-xs sm:text-sm leading-relaxed max-w-[90%] sm:max-w-[85%]">
+                            مرحباً بك في منصة مِعراج v13. أنا مرشدك المعرفي. لإطلاق محادثتنا، يرجى فتح الإعدادات وإدخال مفتاح Gemini API الخاص بك (يُحفظ في جهازك فقط).
+                        </div>
+                    </div>
+                </div>
+
+                <form id="aiChatForm" class="flex gap-2 pt-1">
+                    <input type="text" id="aiChatInput" required placeholder="اسأل مرشدك المعرفي..." aria-label="نص الرسالة" class="flex-grow bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 sm:py-3 text-xs sm:text-sm text-white focus:border-brand-500 focus:outline-none transition-all">
+                    <button type="submit" id="aiSendBtn" class="px-4 sm:px-5 py-2.5 sm:py-3 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition-all shadow-lg flex items-center justify-center gap-1.5 touch-tap shrink-0 disabled:opacity-60"><span>إرسال</span> <i class="fa-solid fa-paper-plane text-xs" aria-hidden="true"></i></button>
+                </form>
+            </div>
+        </section>
+
+        <!-- TAB 3: COURSES -->
+        <section id="tab-courses" class="tab-content hidden" role="tabpanel">
+            <div class="space-y-6">
+                <div class="glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl border border-cyan-500/30 space-y-4">
+                    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-slate-800 pb-4">
+                        <div class="space-y-1">
+                            <span class="px-3 py-1 rounded-full bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 text-[10px] font-bold">الدورة النشطة</span>
+                            <h3 id="workspaceCourseTitle" class="text-lg sm:text-2xl font-bold font-heading text-white">—</h3>
+                            <p class="text-xs text-slate-300">ملاحظات صوتية تفاعلية مستمرة + تقييم ثبات المعلومة في الذاكرة.</p>
+                        </div>
+                        <div class="bg-slate-900/90 p-3 sm:p-4 rounded-2xl border border-slate-800 text-center w-full md:w-auto space-y-1">
+                            <span class="text-[10px] text-slate-400 block font-semibold">مؤشر ثبات المعلومات</span>
+                            <div class="flex items-center justify-center gap-2">
+                                <i class="fa-solid fa-brain text-amber-400 text-lg" aria-hidden="true"></i>
+                                <span id="retentionGaugeText" class="text-xl font-mono font-black text-emerald-400">—</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 pt-2">
+                        <div class="lg:col-span-2 space-y-3">
+                            <div class="flex justify-between items-center flex-wrap gap-2">
+                                <label for="courseNotesInput" class="block text-xs font-bold text-slate-300"><i class="fa-solid fa-microphone text-brand-400 ml-1" aria-hidden="true"></i> تدوين ملاحظات الدورة (يدوي أو بالصوت):</label>
+                                <button id="dictationBtn" onclick="Voice.toggle()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-brand-400 hover:text-brand-300 border border-brand-500/30 text-xs font-bold transition-all flex items-center gap-2 touch-tap">
+                                    <i class="fa-solid fa-microphone" id="micIcon" aria-hidden="true"></i>
+                                    <span id="micStatusText">تحدث بالمايك</span>
+                                </button>
+                            </div>
+
+                            <textarea id="courseNotesInput" rows="4" placeholder="انقر على زر المايك للتحدث بالصوت المستمر..." class="w-full bg-slate-950/80 border border-slate-700 rounded-xl p-3 text-xs sm:text-sm text-white focus:border-brand-500 focus:outline-none leading-relaxed custom-scrollbar"></textarea>
+
+                            <div class="p-3 rounded-xl bg-slate-900/80 border border-slate-800 space-y-2">
+                                <label class="block text-[11px] font-bold text-amber-300">ما مدى ثبات أفكار هذه الجلسة في ذهنك الآن؟</label>
+                                <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 text-xs">
+                                    <button onclick="Retention.set(0,'لم أفهم')" class="retention-btn py-2 px-2 rounded-lg bg-slate-900 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-[10px] font-bold touch-tap">0% لم أفهم</button>
+                                    <button onclick="Retention.set(25,'مبدئي')" class="retention-btn py-2 px-2 rounded-lg bg-slate-900 hover:bg-red-500/20 text-slate-300 border border-slate-800 text-[10px] touch-tap">25% مبدئي</button>
+                                    <button onclick="Retention.set(50,'جزئي')" class="retention-btn py-2 px-2 rounded-lg bg-slate-900 hover:bg-amber-500/20 text-slate-300 border border-slate-800 text-[10px] touch-tap">50% جزئي</button>
+                                    <button onclick="Retention.set(75,'جيد')" class="retention-btn py-2 px-2 rounded-lg bg-slate-900 hover:bg-cyan-500/20 text-slate-300 border border-slate-800 text-[10px] touch-tap">75% جيد</button>
+                                    <button onclick="Retention.set(100,'إتقان')" class="retention-btn py-2 px-2 rounded-lg bg-brand-500/20 text-brand-300 border border-brand-500/40 text-[10px] font-bold touch-tap">100% إتقان</button>
+                                </div>
+                            </div>
+
+                            <button onclick="Retention.saveNote()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl text-xs transition-all shadow-md touch-tap flex items-center justify-center gap-2"><i class="fa-solid fa-floppy-disk" aria-hidden="true"></i> حفظ الملاحظة في السجل</button>
+                        </div>
+
+                        <div class="bg-slate-900/90 p-4 rounded-2xl border border-slate-800 space-y-3 flex flex-col justify-between">
+                            <div>
+                                <h4 class="text-xs font-bold text-white font-heading flex items-center gap-2"><i class="fa-solid fa-chart-line text-amber-400" aria-hidden="true"></i> إحصائيات ثبات المفاهيم</h4>
+                                <p class="text-[10px] text-slate-400 mt-1">تقييم تراكمي لقوة رسوخ المعلومات.</p>
+                                <div id="retentionStats" class="mt-4 space-y-2 text-xs"></div>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 text-[10px] text-slate-400"><i class="fa-solid fa-lightbulb text-amber-400 ml-1" aria-hidden="true"></i> نصيحة: إذا سجلت 0%، استخدم المايك لشرح العوائق وسيفككها مرشد الذكاء الاصطناعي.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-8">
+                    <div class="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl space-y-4 sm:space-y-6 h-fit">
+                        <div class="border-b border-slate-800 pb-3">
+                            <h3 class="text-base sm:text-lg font-bold text-white font-heading flex items-center gap-2"><i class="fa-solid fa-sliders text-brand-500" aria-hidden="true"></i> حاسبة الدورات</h3>
+                            <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">حساب الأيام مع دمج فواصل التثبيت.</p>
+                        </div>
+
+                        <form id="courseForm" class="space-y-3.5 text-xs sm:text-sm">
+                            <div>
+                                <label for="courseName" class="block font-medium text-slate-300 mb-1">اسم المهارة / الهدف</label>
+                                <input type="text" id="courseName" required value="هندسة الذكاء الاصطناعي" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-brand-500 focus:outline-none">
+                            </div>
+                            <div class="grid grid-cols-2 gap-2.5">
+                                <div>
+                                    <label for="courseHours" class="block font-medium text-slate-300 mb-1">إجمالي الساعات</label>
+                                    <input type="number" id="courseHours" required value="66" min="1" max="1000" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-brand-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label for="dailyCommitment" class="block font-medium text-slate-300 mb-1">التفرغ اليومي</label>
+                                    <input type="number" id="dailyCommitment" required value="2" step="0.5" min="0.5" max="12" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-brand-500 focus:outline-none">
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-between p-3 rounded-xl bg-slate-900/80 border border-slate-800">
+                                <div>
+                                    <span class="block font-medium text-slate-200">راحة عطلة الأسبوع</span>
+                                    <span class="text-[9px] sm:text-[10px] text-slate-400">استثناء يومين لمنع الإرهاق</span>
+                                </div>
+                                <input type="checkbox" id="restWeekends" checked class="w-4 h-4 accent-brand-500 rounded cursor-pointer">
+                            </div>
+                            <button type="submit" class="w-full py-3 bg-gradient-to-r from-brand-600 to-amber-500 hover:from-brand-500 hover:to-amber-400 text-slate-950 font-bold rounded-xl transition-all shadow-md touch-tap">حساب وتوزيع الخطة</button>
+                        </form>
+                    </div>
+
+                    <div class="lg:col-span-2 space-y-5 sm:space-y-6">
+                        <div class="glass-card p-4 sm:p-8 rounded-2xl sm:rounded-3xl space-y-5 sm:space-y-6">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 border-b border-slate-800 pb-4">
+                                <div>
+                                    <span class="text-[10px] sm:text-xs text-brand-400 font-bold bg-brand-500/10 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-md border border-brand-500/20">الخطة النشطة</span>
+                                    <h3 id="displayCourseTitle" class="text-lg sm:text-xl font-bold font-heading text-white mt-1.5">—</h3>
+                                </div>
+                                <div class="text-right sm:text-left self-end sm:self-auto">
+                                    <span id="completionPercentageText" class="text-2xl sm:text-3xl font-black text-amber-400 font-mono">0%</span>
+                                    <p class="text-[10px] sm:text-xs text-slate-400">معدل الإنجاز</p>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2">
+                                <div class="w-full bg-slate-900 h-3.5 sm:h-4 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                                    <div id="displayProgressBar" class="bg-gradient-to-r from-brand-500 via-emerald-400 to-amber-500 h-full rounded-full transition-all duration-500" style="width:0%"></div>
+                                </div>
+                                <div class="flex justify-between text-[11px] sm:text-xs text-slate-400 font-semibold">
+                                    <span>منجز: <strong id="completedHoursText" class="text-brand-400">0</strong> / <span id="totalCourseHoursText">0</span> ساعة</span>
+                                    <span>المتبقي: <strong id="remainingHoursText" class="text-amber-400">0</strong> ساعة</span>
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
+                                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center"><span class="text-[10px] text-slate-400 block">أيام التعلم</span><span id="calcTotalDays" class="text-base font-bold text-white">—</span></div>
+                                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center"><span class="text-[10px] text-slate-400 block">أيام المراجعة</span><span id="calcReviewDays" class="text-base font-bold text-emerald-400">—</span></div>
+                                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center"><span class="text-[10px] text-slate-400 block">تاريخ التخرج</span><span id="calcEndDate" class="text-[11px] font-bold text-amber-300">—</span></div>
+                                <div class="bg-slate-900/80 p-3 rounded-xl border border-slate-800 text-center"><span class="text-[10px] text-slate-400 block">الإيقاع</span><span id="calcDailyHours" class="text-base font-bold text-white">—</span></div>
+                            </div>
+
+                            <div class="p-3.5 sm:p-4 rounded-xl glass-card-accent space-y-2.5">
+                                <div class="flex justify-between items-center flex-wrap gap-2">
+                                    <h4 class="text-[10px] sm:text-xs font-bold text-brand-400 uppercase tracking-wider">إنجاز سريع</h4>
+                                    <button onclick="Courses.adaptiveReschedule()" class="text-[10px] sm:text-[11px] text-amber-400 hover:underline flex items-center gap-1 touch-tap"><i class="fa-solid fa-arrows-rotate" aria-hidden="true"></i> إعادة توزيع</button>
+                                </div>
+                                <div class="grid grid-cols-3 sm:flex sm:flex-wrap items-center gap-2 pt-1">
+                                    <button onclick="Courses.addProgress(1)" class="py-2 px-3 bg-slate-900 hover:bg-brand-600 hover:text-slate-950 text-white text-xs font-bold rounded-xl border border-slate-700 transition-all touch-tap">+1 ساعة</button>
+                                    <button onclick="Courses.addProgress(2)" class="py-2 px-3 bg-slate-900 hover:bg-brand-600 hover:text-slate-950 text-white text-xs font-bold rounded-xl border border-slate-700 transition-all touch-tap">+2 ساعة</button>
+                                    <button onclick="Courses.addProgress(0.5)" class="py-2 px-3 bg-slate-900 hover:bg-brand-600 hover:text-slate-950 text-white text-xs font-bold rounded-xl border border-slate-700 transition-all touch-tap">+30 دقيقة</button>
+                                    <button onclick="Courses.reset()" class="col-span-3 sm:mr-auto text-xs text-red-400 hover:text-red-300 underline touch-tap">إعادة ضبط</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: LEDGER -->
+        <section id="tab-ledger" class="tab-content hidden" role="tabpanel">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 sm:gap-8">
+                <div class="glass-card p-5 sm:p-6 rounded-2xl sm:rounded-3xl space-y-5 sm:space-y-6 flex flex-col justify-between text-center">
+                    <div>
+                        <span class="text-[11px] font-bold px-3 py-1 rounded-full bg-violet-500/10 text-violet-300 border border-violet-500/20">مؤقت التدفق الفائق</span>
+                        <h3 class="text-lg sm:text-xl font-bold font-heading text-white mt-2.5">جلسة التركيز العميق</h3>
+                        <p class="text-[10px] sm:text-[11px] text-slate-400 mt-0.5">الموصى بها لسعتك: <span id="recommendedTimerMode" class="text-brand-400 font-bold">45 دقيقة</span></p>
+                    </div>
+
+                    <div class="relative w-44 h-44 sm:w-52 sm:h-52 mx-auto flex items-center justify-center my-2">
+                        <svg viewBox="0 0 208 208" class="w-full h-full transform -rotate-90" aria-hidden="true">
+                            <circle cx="104" cy="104" r="92" stroke="currentColor" stroke-width="8" class="text-slate-900" fill="transparent"/>
+                            <circle id="timerProgressCircle" cx="104" cy="104" r="92" stroke="currentColor" stroke-width="8" class="text-brand-500 transition-all duration-1000" fill="transparent" stroke-dasharray="578" stroke-dashoffset="0" stroke-linecap="round"/>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center">
+                            <span id="timerDisplay" class="text-3xl sm:text-4xl font-black font-mono tracking-wider text-white">45:00</span>
+                            <span id="timerStatus" class="text-[10px] sm:text-xs text-slate-400 mt-1">جاهز</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div class="flex justify-center gap-1.5 flex-wrap">
+                            <button onclick="Timer.setPreset(25)" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 border border-slate-800 touch-tap">25 د</button>
+                            <button onclick="Timer.setPreset(45)" class="px-3 py-1.5 rounded-lg bg-brand-500/20 text-brand-300 text-xs font-bold border border-brand-500/40 touch-tap">45 د</button>
+                            <button onclick="Timer.setPreset(90)" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-xs text-slate-300 border border-slate-800 touch-tap">90 د</button>
+                        </div>
+                        <div class="flex items-center justify-center gap-2 pt-1">
+                            <input type="number" id="customTimerInput" placeholder="دقائق" min="1" max="300" aria-label="مدة مخصصة بالدقائق" class="w-24 bg-slate-900 border border-slate-700 rounded-xl px-2.5 py-1.5 text-xs text-center text-white focus:border-brand-500 focus:outline-none">
+                            <button onclick="Timer.applyCustom()" class="px-3 py-1.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-bold text-xs transition-all touch-tap">تخصيص</button>
+                        </div>
+                        <div class="pt-1">
+                            <button onclick="Ambient.toggle()" id="ambientSoundBtn" class="px-3.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-amber-400 text-xs font-semibold border border-amber-500/20 flex items-center justify-center gap-1.5 mx-auto transition-all touch-tap">
+                                <i class="fa-solid fa-headphones" aria-hidden="true"></i> <span id="ambientSoundText">تشغيل ضوضاء التركيز (Brown Noise)</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-center gap-3 pt-1">
+                        <button onclick="Timer.toggle()" id="timerStartBtn" class="px-6 sm:px-7 py-3 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl text-xs sm:text-sm transition-all shadow-md touch-tap"><i class="fa-solid fa-play ml-1" aria-hidden="true"></i> بدء الجلسة</button>
+                        <button onclick="Timer.reset()" class="px-4 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold rounded-xl text-xs sm:text-sm transition-all border border-slate-700 touch-tap" aria-label="إعادة ضبط"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></button>
+                    </div>
+                    <p class="text-[10px] text-slate-500">اختصار: <kbd class="px-1.5 py-0.5 bg-slate-800 rounded text-slate-300">Space</kbd> للبدء/الإيقاف</p>
+                </div>
+
+                <div class="lg:col-span-2 glass-card p-4 sm:p-8 rounded-2xl sm:rounded-3xl space-y-5 sm:space-y-6">
+                    <div class="border-b border-slate-800 pb-3">
+                        <h3 class="text-lg sm:text-xl font-bold font-heading text-white flex items-center gap-2"><i class="fa-solid fa-book-bookmark text-amber-400" aria-hidden="true"></i> سِجل التعلم العميق</h3>
+                        <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">توثيق الجلسات لترسيخ الذاكرة.</p>
+                    </div>
+
+                    <form id="ledgerForm" class="space-y-3.5 text-xs sm:text-sm">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <div>
+                                <label for="ledgerCategory" class="block font-medium text-slate-300 mb-1">نوع المصدر</label>
+                                <select id="ledgerCategory" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-brand-500 focus:outline-none">
+                                    <option value="دورة مخصصة">دورة مخصصة</option>
+                                    <option value="قراءة كتاب">قراءة كتاب</option>
+                                    <option value="تطبيق برمجي">تطبيق برمجي</option>
+                                    <option value="بودكاست / صوتيات">بودكاست / صوتيات</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="ledgerHours" class="block font-medium text-slate-300 mb-1">عدد الساعات</label>
+                                <input type="number" id="ledgerHours" required value="1" step="0.5" min="0.25" max="15" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-brand-500 focus:outline-none">
+                            </div>
+                        </div>
+                        <div>
+                            <label for="ledgerInsight" class="block font-medium text-slate-300 mb-1">استبصار اليوم (Breakthrough)</label>
+                            <input type="text" id="ledgerInsight" required placeholder="المعنى العميق الذي استوعبته بكلماتك..." class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-white focus:border-brand-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-slate-300 mb-1">جودة التركيز</label>
+                            <div class="flex flex-wrap items-center gap-3 bg-slate-900/80 p-2.5 rounded-xl border border-slate-800">
+                                <label class="flex items-center gap-1 cursor-pointer text-xs"><input type="radio" name="rating" value="5" checked class="accent-brand-500"> ⭐️⭐️⭐️⭐️⭐️ تدفق</label>
+                                <label class="flex items-center gap-1 cursor-pointer text-xs"><input type="radio" name="rating" value="4" class="accent-brand-500"> ⭐️⭐️⭐️⭐️ جيد</label>
+                                <label class="flex items-center gap-1 cursor-pointer text-xs"><input type="radio" name="rating" value="3" class="accent-brand-500"> ⭐️⭐️⭐️ مشتت</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full py-3 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl transition-all shadow-md touch-tap"><i class="fa-solid fa-plus-circle ml-1.5" aria-hidden="true"></i> توثيق الجلسة</button>
+                    </form>
+
+                    <div class="pt-3 border-t border-slate-800">
+                        <div class="flex justify-between items-center mb-2.5">
+                            <h4 class="text-xs font-bold text-slate-400">الجلسات الموثقة</h4>
+                            <button onclick="Ledger.clearAll()" class="text-[10px] text-red-400 hover:underline touch-tap">مسح الكل</button>
+                        </div>
+                        <div class="overflow-x-auto custom-scrollbar">
+                            <table class="w-full text-right text-xs text-slate-300 min-w-[500px]">
+                                <thead class="bg-slate-900/80 text-slate-400 uppercase text-[10px]">
+                                    <tr>
+                                        <th class="p-2.5 rounded-r-lg">التاريخ</th>
+                                        <th class="p-2.5">المصدر</th>
+                                        <th class="p-2.5">الساعات</th>
+                                        <th class="p-2.5">الاستبصار</th>
+                                        <th class="p-2.5 rounded-l-lg">التركيز</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ledgerHistoryTableBody" class="divide-y divide-slate-800/50"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: ANALYTICS -->
+        <section id="tab-analytics" class="tab-content hidden space-y-6 sm:space-y-8" role="tabpanel">
+            <div class="glass-card p-5 sm:p-8 rounded-2xl sm:rounded-3xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-5 sm:gap-6 border border-amber-500/20">
+                <div class="space-y-2 text-center md:text-right z-10">
+                    <span class="text-[10px] sm:text-xs font-bold text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/30">سُلم المراتب المعرفية</span>
+                    <h2 class="text-xl sm:text-3xl font-extrabold font-heading text-white">مرتبتك: <span id="dashTierTitle" class="text-amber-400">المستكشف المعرفي</span></h2>
+                    <p class="text-xs sm:text-sm text-slate-300 max-w-xl">أنجزت <strong id="dashTotalHoursText" class="text-brand-400">0 ساعة</strong>. تبقت <strong id="hoursToNextTier" class="text-amber-400">50 ساعة</strong> للارتقاء إلى <strong>(الباحث المتمكن)</strong>.</p>
+                </div>
+                <div class="z-10 bg-slate-900/90 p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-amber-500/40 text-center space-y-1.5 shadow-xl w-full md:w-auto">
+                    <div class="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-tr from-amber-500 via-yellow-400 to-amber-600 rounded-xl sm:rounded-2xl mx-auto flex items-center justify-center text-slate-950 text-xl sm:text-2xl font-black shadow-lg"><i class="fa-solid fa-compass" aria-hidden="true"></i></div>
+                    <span class="block text-xs font-bold text-amber-300">المرتبة الأولى</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-4 sm:p-8 rounded-2xl sm:rounded-3xl space-y-4 sm:space-y-6">
+                <div class="border-b border-slate-800 pb-3">
+                    <h3 class="text-base sm:text-lg font-bold text-white font-heading flex items-center gap-2"><i class="fa-solid fa-layer-group text-cyan-400" aria-hidden="true"></i> مصفوفة المهارات المستقبلية</h3>
+                    <p class="text-[11px] sm:text-xs text-slate-400 mt-0.5">اختر مهارة لتشغيل حاسبتها فورياً.</p>
+                </div>
+
+                <div id="skillsGrid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2.5 sm:gap-3 text-xs"></div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-5 sm:gap-8">
+                <div class="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl space-y-3 sm:space-y-4">
+                    <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2"><i class="fa-solid fa-chart-column text-brand-400" aria-hidden="true"></i> ساعات التعلم آخر 7 أيام</h3>
+                    <div class="h-52 sm:h-60"><canvas id="weeklyHoursChart" aria-label="رسم أعمدة لساعات التعلم"></canvas></div>
+                </div>
+                <div class="glass-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl space-y-3 sm:space-y-4">
+                    <h3 class="text-xs sm:text-sm font-bold text-white flex items-center gap-2"><i class="fa-solid fa-chart-pie text-amber-400" aria-hidden="true"></i> توزيع مصادر التعلم</h3>
+                    <div class="h-52 sm:h-60"><canvas id="categoriesChart" aria-label="رسم دائري لمصادر التعلم"></canvas></div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
-    <!-- TOAST -->
-    <div id="toastNotification" class="fixed bottom-6 left-6 bg-slate-900 border border-emerald-500/40 px-5 py-3 rounded-2xl text-xs text-white transform translate-y-20 opacity-0 transition-all duration-300">
-        <span id="toastMessage">تم بنجاح</span>
+    <!-- FOOTER -->
+    <footer class="glass-card border-t border-slate-800 py-6 px-4 text-center text-xs text-slate-500 mt-12 no-print">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
+            <p>© 2026 منصة مِعراج v13. جميع الحقوق محفوظة.</p>
+            <p class="text-slate-400">إعداد: محمد حكمي <span class="text-amber-400 font-bold mr-2">• BYOK Edition</span></p>
+        </div>
+    </footer>
+
+    <!-- SETTINGS MODAL -->
+    <div id="settingsModal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+        <div class="modal-card w-full max-w-md rounded-2xl p-5 sm:p-6 space-y-4 fade-in max-h-[90vh] overflow-y-auto custom-scrollbar">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                <h3 id="settingsTitle" class="text-lg font-bold font-heading text-white flex items-center gap-2"><i class="fa-solid fa-gear text-brand-400" aria-hidden="true"></i> الإعدادات</h3>
+                <button onclick="UI.closeSettings()" class="text-slate-400 hover:text-red-400 touch-tap" aria-label="إغلاق"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+
+            <div class="space-y-3">
+                <div class="p-3 rounded-xl bg-amber-500/10 border border-amber-500/30 text-[11px] text-amber-200 leading-relaxed">
+                    <strong class="block mb-1"><i class="fa-solid fa-shield-halved ml-1" aria-hidden="true"></i> نموذج BYOK — مفتاحك يبقى في جهازك</strong>
+                    مفتاح Gemini API يُحفظ في <code class="text-amber-300">localStorage</code> فقط، ولا يُرسل لأي خادم باستثناء Google. احصل على مفتاحك المجاني من <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener" class="text-brand-400 underline">Google AI Studio</a>.
+                </div>
+
+                <div>
+                    <label for="apiKeyInput" class="block text-xs font-semibold text-slate-300 mb-1">مفتاح Gemini API</label>
+                    <div class="relative">
+                        <input type="password" id="apiKeyInput" placeholder="AIza..." autocomplete="off" spellcheck="false" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-brand-500 focus:outline-none pl-10">
+                        <button type="button" onclick="UI.toggleKeyVisibility()" class="absolute left-2 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 p-1" aria-label="إظهار المفتاح"><i id="keyEyeIcon" class="fa-solid fa-eye"></i></button>
+                    </div>
+                    <p class="text-[10px] text-slate-500 mt-1">يُخزّن مشفّراً في متصفحك فقط.</p>
+                </div>
+
+                <div>
+                    <label for="modelSelect" class="block text-xs font-semibold text-slate-300 mb-1">موديل الذكاء الاصطناعي</label>
+                    <select id="modelSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:border-brand-500 focus:outline-none">
+                        <option value="gemini-1.5-flash-latest">Gemini 1.5 Flash (سريع، موصى به)</option>
+                        <option value="gemini-1.5-pro-latest">Gemini 1.5 Pro (أعمق، أبطأ)</option>
+                        <option value="gemini-2.0-flash-exp">Gemini 2.0 Flash (تجريبي)</option>
+                    </select>
+                </div>
+
+                <div class="flex flex-col gap-2 pt-2">
+                    <button onclick="UI.saveApiKey()" class="w-full py-2.5 bg-brand-600 hover:bg-brand-500 text-slate-950 font-bold rounded-xl text-xs transition-all touch-tap"><i class="fa-solid fa-floppy-disk ml-1" aria-hidden="true"></i> حفظ المفتاح</button>
+                    <button onclick="AI.testKey()" class="w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold rounded-xl text-xs border border-slate-700 transition-all touch-tap"><i class="fa-solid fa-flask ml-1" aria-hidden="true"></i> اختبار الاتصال</button>
+                    <div id="aiTestResult" class="text-[11px] text-center hidden"></div>
+                </div>
+
+                <div class="border-t border-slate-800 pt-3 space-y-2">
+                    <h4 class="text-xs font-bold text-slate-400">البيانات</h4>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button onclick="Data.exportAll()" class="py-2 bg-slate-900 hover:bg-slate-800 text-slate-200 rounded-xl text-[11px] font-semibold border border-slate-700 touch-tap"><i class="fa-solid fa-download ml-1" aria-hidden="true"></i> تصدير</button>
+                        <label class="py-2 bg-slate-900 hover:bg-slate-800 text-slate-200 rounded-xl text-[11px] font-semibold border border-slate-700 touch-tap text-center cursor-pointer"><i class="fa-solid fa-upload ml-1" aria-hidden="true"></i> استيراد<input type="file" id="importFile" accept="application/json" class="hidden"></label>
+                    </div>
+                    <button onclick="Data.resetAll()" class="w-full py-2 bg-red-500/10 hover:bg-red-500/20 text-red-300 rounded-xl text-[11px] font-semibold border border-red-500/30 touch-tap"><i class="fa-solid fa-trash ml-1" aria-hidden="true"></i> تصفير كل البيانات</button>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script type="module" src="/src/main.ts"></script>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toastNotification" class="fixed bottom-6 left-6 z-50 glass-card px-5 py-3 rounded-2xl shadow-2xl border border-brand-500/40 text-xs text-white font-bold flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300" role="status" aria-live="polite">
+        <i class="fa-solid fa-circle-check text-brand-400 text-base" aria-hidden="true"></i>
+        <span id="toastMessage">تم التنفيذ بنجاح</span>
+    </div>
+
+    <!-- استدعاء سكريبت الإقلاع كـ Module -->
+    <script type="module" src="js/app.js"></script>
 </body>
 </html>
